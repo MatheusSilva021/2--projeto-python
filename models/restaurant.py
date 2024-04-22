@@ -1,4 +1,7 @@
 from models.review import Review
+from models.cardapio.item_cardapio import ItemCardapio
+
+
 class Restaurant:
     """Representa um restaurante e suas características."""
     
@@ -17,6 +20,7 @@ class Restaurant:
         self._category = category.capitalize()
         self._active = False
         self._ratings = []
+        self._cardapio = []
         Restaurant.restaurants.append(self)
         
     def __str__(self):
@@ -69,3 +73,18 @@ class Restaurant:
                 return 10
             else:
                 return avarage
+    
+    def adicionar_itens_cardapio(self,item):
+        if isinstance(item,ItemCardapio):
+            self._cardapio.append(item)
+            
+    @property
+    def exibir_cardapio(self):
+        print(f'Cardapio do Restaurante {self._name}')
+        for i,item in enumerate(self._cardapio, start=1):
+            if hasattr(item,'_descricao'):
+                mensagem_prato = f'{i}. Nome: {item._nome} | Preço: R${item._preco} | Descrição: {item._descricao}'
+                print(mensagem_prato)
+            else:
+                mensagem_bebida = f'{i}. Nome: {item._nome} | Preço: R${item._preco} | Tamanho: {item._tamanho}'
+                print(mensagem_bebida)
